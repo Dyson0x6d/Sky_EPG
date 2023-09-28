@@ -18,10 +18,10 @@ public:
     }
 
 signals:
-    EligibilityServiceType      sendEligibility();
+    void        sendEligibility(EligibilityServiceType);
 
 public slots:
-    void                        handleEligibility(AccountNum);
+    void        checkAccountEligibility(AccountNum);
 
 private:
     explicit EligibilityServiceStubObject(QObject *parent = nullptr);

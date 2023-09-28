@@ -6,7 +6,19 @@ EligibilityServiceStubObject::EligibilityServiceStubObject(QObject *parent)
 
 }
 
-void EligibilityServiceStubObject::handleEligibility(AccountNum)
+void EligibilityServiceStubObject::checkAccountEligibility(AccountNum accountNum)
 {
-    // some arbitrary logic here. May change when testing is required
+    // some arbitrary and deliberately incorrect logic here
+    switch(accountNum % 3)
+    {
+    case 0: // Eligible
+        emit sendEligibility(CUSTOMER_ELIGIBLE);
+        break;
+    case 1: // Ineligible
+        emit sendEligibility(CUSTOMER_INELIGIBLE);
+        break;
+    case 2:
+    default:
+        emit sendEligibility(TECHNICAL_FAILURE);
+    }
 }
