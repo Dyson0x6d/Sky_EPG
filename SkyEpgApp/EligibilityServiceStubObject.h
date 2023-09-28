@@ -8,13 +8,23 @@ class EligibilityServiceStubObject : public QObject
 {
     Q_OBJECT
 public:
-    explicit EligibilityServiceStubObject(QObject *parent = nullptr);
+    virtual ~EligibilityServiceStubObject() {}
+
+    // static getter
+    static EligibilityServiceStubObject & GetInstance()
+    {
+        static EligibilityServiceStubObject instance;
+        return instance;
+    }
 
 signals:
     EligibilityServiceType      sendEligibility();
 
 public slots:
     void                        handleEligibility(AccountNum);
+
+private:
+    explicit EligibilityServiceStubObject(QObject *parent = nullptr);
 };
 
 #endif // ELIGIBILITYSERVICESTUBOBJECT_H

@@ -9,9 +9,17 @@ class RewardsServiceObject : public QObject
 {
     Q_OBJECT
 public:
-    explicit RewardsServiceObject(QObject *parent = nullptr);
+    virtual     ~RewardsServiceObject() {}
+
+    // static getter
+    static RewardsServiceObject & GetInstance()
+    {
+        static RewardsServiceObject instance;
+        return instance;
+    }
 
     void        addRewardsEntry(const RewardsEntryItem& rewardItem);
+
 signals:
     void        requestAccountEligibility(AccountNum);
     RewardsList sendRewardsResponse();
@@ -21,6 +29,7 @@ public slots:
     void        handleEligibilityResponse(EligibilityServiceType);
 
 private:
+    explicit RewardsServiceObject(QObject *parent = nullptr);
     RewardsEntryList rewardsEntries;
 };
 
