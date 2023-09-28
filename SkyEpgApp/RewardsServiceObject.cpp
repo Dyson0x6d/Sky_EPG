@@ -28,7 +28,12 @@ bool RewardsServiceObject::isUserObjectInflight(const UserObject userObject)
 
 void RewardsServiceObject::handleEligibilityResponse(EligibilityServiceType eligibility)
 {
+    // NOTE: the model seems to suggest that the eligibility response is always for the last account sent
+    //       suggestion, return the account number WITH the eligibility response
+
+
     // if eligibility == CUSTOMER_ELIGIBLE
     //  build the list of rewards from the users account num
     // remove the account num from the inflight requests
+    // inFlightUserRequests.pop_front();
 }

@@ -27,6 +27,11 @@ signals:
 
 public slots:
     void        handleRewardsRequest(UserObject);
+
+    // NOTE: the model seems to suggest that the eligibility response is always for the last account sent
+    //       suggestion, return the account number WITH the eligibility response
+    //       e.g. void handleEligibilityResponse(AccountNum, EligibilityServiceType);
+
     void        handleEligibilityResponse(EligibilityServiceType);
 
 private:

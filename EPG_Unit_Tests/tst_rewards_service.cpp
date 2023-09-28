@@ -19,7 +19,28 @@ private slots:
     void initTestCase() {};
     void cleanupTestCase() {};
 
+    void testHandleRewardsRequest();
+    // what is a failing test here?
 };
+
+
+void rewards_service_test::testHandleRewardsRequest()
+{
+    qRegisterMetaType<UserObject>();
+    qRegisterMetaType<AccountNum>();
+
+    QSignalSpy spy(&(RewardsServiceObject::GetInstance()),
+                   SIGNAL(requestAccountEligibility(AccountNum)) );
+
+    AccountNum accountNumber = 300;
+    UserObject user1(accountNumber);
+
+    RewardsServiceObject::GetInstance().handleRewardsRequest(user1);
+
+    QCOMPARE(spy.count(), 1);
+    AccountNum recievedAccountNum = qvariant_cast<AccountNum>(spy.at(0).at(0));
+    QVERIFY( recievedAccountNum == accountNumber );
+}
 
 //========================================================================
 
@@ -114,7 +135,7 @@ void eligibility_service_test::testTechnicalFailureAccountNumber()
 int main(int argc, char *argv[])
 {
     int status = 0;
-    //status |= QTest::qExec(new rewards_service_test, argc, argv);
+    status |= QTest::qExec(new rewards_service_test, argc, argv);
     status |= QTest::qExec(new channel_object_test, argc, argv);
     status |= QTest::qExec(new eligibility_service_test, argc, argv);
     // status |= QTest::qExec(new ..., argc, argv);
