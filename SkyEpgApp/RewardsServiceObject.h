@@ -19,18 +19,21 @@ public:
     }
 
     void        addRewardsEntry(const RewardsEntryItem& rewardItem);
+    bool        isUserObjectInflight(const UserObject userObject);
 
 signals:
     void        requestAccountEligibility(AccountNum);
-    RewardsList sendRewardsResponse();
+    void        sendRewardsResponse(RewardsList);
 
 public slots:
-    void        handleRewardsRequest(UserObject&);
+    void        handleRewardsRequest(UserObject);
     void        handleEligibilityResponse(EligibilityServiceType);
 
 private:
     explicit RewardsServiceObject(QObject *parent = nullptr);
+
     RewardsEntryList rewardsEntries;
+    QList<UserObject> inFlightUserRequests;
 };
 
 #endif // REWARDSSERVICEOBJECT_H

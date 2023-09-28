@@ -1,8 +1,5 @@
 #include "RewardsServiceObject.h"
 
-#include "qmap.h"
-
-QMap<AccountNum, ChannelList> inFlightUserRequests;
 
 RewardsServiceObject::RewardsServiceObject(QObject *parent)
     : QObject{parent}
@@ -17,10 +14,16 @@ void    RewardsServiceObject::addRewardsEntry(const RewardsEntryItem& rewardItem
 }
 
 
-void RewardsServiceObject::handleRewardsRequest(UserObject& usrObj)
+void RewardsServiceObject::handleRewardsRequest(UserObject userObj)
 {
-    // inFlightUserRequests.append (stuff);
-    // emit     requestAccountEligibility(usrObj.getAccountNumber());
+    inFlightUserRequests.append(userObj);
+    emit requestAccountEligibility(userObj.getAccountNumber());
+}
+
+bool RewardsServiceObject::isUserObjectInflight(const UserObject userObject)
+{
+    return inFlightUserRequests.contains(userObject);
+    return true;
 }
 
 void RewardsServiceObject::handleEligibilityResponse(EligibilityServiceType eligibility)
