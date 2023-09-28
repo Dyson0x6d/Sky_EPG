@@ -2,9 +2,8 @@
 
 AccountNum UserObject::nextAvailableAccountNumber = 255;
 
-UserObject::UserObject(AccountNum accountNumber, QObject *parent)
-    : QObject{parent},
-    userAccountNumber(accountNumber)
+UserObject::UserObject(AccountNum accountNumber)
+    :userAccountNumber(accountNumber)
 {
     if(accountNumber==0)
     {

@@ -1,10 +1,8 @@
 #include "ChannelObject.h"
 
-ChannelObject::ChannelObject(QString name, QObject *parent)
-    : QObject{parent},
-    channelName(name)
+ChannelObject::ChannelObject(QString name)
+    :channelName(name)
 {
-
 }
 
 QString     ChannelObject::getChannelName() const

@@ -3,18 +3,15 @@
 
 #include <QObject>
 
-class ChannelObject : public QObject
+class ChannelObject
 {
-    Q_OBJECT
 public:
-    explicit ChannelObject(QString name, QObject *parent = nullptr);
+    explicit ChannelObject(QString name);
 
     QString     getChannelName() const;
-signals:
-
 private:
     QString     channelName;
-    // QUUId for channelUUID;
+    // QUUId for channelUUID ?
 };
 
 #endif // CHANNELOBJECT_H

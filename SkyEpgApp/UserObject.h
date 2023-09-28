@@ -2,18 +2,24 @@
 #define USEROBJECT_H
 
 #include <QObject>
+
 #include "EpgAppTypes.h"
 
-class UserObject : public QObject
+class UserObject
 {
-    Q_OBJECT
 public:
-    explicit UserObject(AccountNum accountNumber = 0, QObject *parent = nullptr);
+    explicit UserObject(AccountNum accountNumber = 0);
 
     AccountNum  getAccountNumber() const;
     ChannelList getSubscribedChannels() const;
 
     void     addChannelSubscription(const ChannelObject & chan);
+
+    bool    operator==(const UserObject & rhs) const
+    {
+        return (userAccountNumber==rhs.getAccountNumber());
+    }
+
 signals:
 
     void    requestAvailableRewards();
