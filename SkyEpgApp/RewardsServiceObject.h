@@ -20,10 +20,16 @@ public:
     }
 
     void        addRewardsEntry(const RewardsEntryItem& rewardItem);
+    void        addUserDataToInflight(const UserData userData);
     bool        isUserDataInflight(const UserData userData);
 
     RewardsEntryItem getRewardEntryAt(uint idx) const;    // to enable debug
     void        clearRewardsEntries() {rewardsEntries.clear();}
+
+    // make connections
+    void        connectUserForRequest(UserObject * user);
+    void        connectToEligibilityService();
+    // TODO disconnect when reward is resolved?
 signals:
     void        requestAccountEligibility(AccountNum);
     void        sendRewardsResponse(RewardsList);
