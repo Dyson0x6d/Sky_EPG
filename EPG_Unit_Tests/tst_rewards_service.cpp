@@ -21,8 +21,9 @@ private slots:
 
     void testHandleRewardsRequest();
     void testAddSingleRewardsItem();
-    void testAddMultipleRewardsItems();
-    // what is a failing test here?
+    void testAddMultipleRewardsItems();    // what is a failing test here?
+    void testHandleRewardsRequestWithChannels();
+    void testHandleEligibilityResponse();
 };
 
 
@@ -79,6 +80,68 @@ void rewards_service_test::testAddMultipleRewardsItems()
 
 }
 
+void rewards_service_test::testHandleRewardsRequestWithChannels()
+{
+    qRegisterMetaType<UserData>();
+    qRegisterMetaType<AccountNum>();
+
+    QSignalSpy spy(&(RewardsServiceObject::GetInstance()),
+                   SIGNAL(requestAccountEligibility(AccountNum)) );
+
+    AccountNum accountNumber = 300;
+    UserData user1(accountNumber);
+    user1.addChannelSubscription(ChannelObject(staticStringList[0][0]));
+    user1.addChannelSubscription(ChannelObject(staticStringList[1][0]));
+    user1.addChannelSubscription(ChannelObject(staticStringList[2][0]));
+
+    // add channels
+
+    RewardsServiceObject::GetInstance().handleRewardsRequest(user1);
+
+    QCOMPARE(spy.count(), 1);
+    AccountNum recievedAccountNum = qvariant_cast<AccountNum>(spy.at(0).at(0));
+    QVERIFY( recievedAccountNum == accountNumber );
+}
+
+
+void rewards_service_test::testHandleEligibilityResponse()
+{
+    // populate rewards
+    testAddMultipleRewardsItems();
+
+    qRegisterMetaType<UserData>();
+    qRegisterMetaType<AccountNum>();
+    qRegisterMetaType<RewardsList>();
+
+
+    // would be nice to have something like googleTest fixtures
+    AccountNum accountNumber = 300;
+    UserData user1(accountNumber);
+    user1.addChannelSubscription(ChannelObject(staticStringList[0][0]));
+    user1.addChannelSubscription(ChannelObject(staticStringList[1][0]));
+    user1.addChannelSubscription(ChannelObject(staticStringList[2][0]));
+
+    RewardsServiceObject::GetInstance().connectToEligibilityService();
+    RewardsServiceObject::GetInstance().addUserDataToInflight(user1);   // this is debug because were skippin handleRewardsRequest
+
+    QSignalSpy spy( &(RewardsServiceObject::GetInstance()),
+                   SIGNAL(sendRewardsResponse(RewardsList)));
+
+    // initiate the message
+    EligibilityServiceStubObject::GetInstance().checkAccountEligibility(user1.getAccountNumber());
+
+    QCOMPARE(spy.count(), 1);
+    RewardsList resultRewardsList = qvariant_cast<RewardsList>(spy.at(0).at(0));
+    // expecting the rewards from staticStringList[0][1] & staticStringList[2][1]
+    QCOMPARE(resultRewardsList.size(), 2);
+    auto foundRewards = resultRewardsList.begin();
+    QVERIFY( *foundRewards == staticStringList[0][1]);
+    ++foundRewards;
+    QVERIFY( *foundRewards == staticStringList[2][1]);
+
+    // perform disconnects
+    disconnect(&(RewardsServiceObject::GetInstance()), nullptr, nullptr, nullptr);
+}
 
 //========================================================================
 
@@ -173,9 +236,9 @@ void eligibility_service_test::testTechnicalFailureAccountNumber()
 int main(int argc, char *argv[])
 {
     int status = 0;
-    status |= QTest::qExec(new rewards_service_test, argc, argv);
     status |= QTest::qExec(new channel_object_test, argc, argv);
     status |= QTest::qExec(new eligibility_service_test, argc, argv);
+    status |= QTest::qExec(new rewards_service_test, argc, argv);
     // status |= QTest::qExec(new ..., argc, argv);
 
     return status;
