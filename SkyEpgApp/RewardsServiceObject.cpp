@@ -24,15 +24,15 @@ RewardsEntryItem RewardsServiceObject::getRewardEntryAt(uint idx) const
     }
 }
 
-void RewardsServiceObject::handleRewardsRequest(UserObject userObj)
+void RewardsServiceObject::handleRewardsRequest(UserData userObj)
 {
     inFlightUserRequests.append(userObj);
     emit requestAccountEligibility(userObj.getAccountNumber());
 }
 
-bool RewardsServiceObject::isUserObjectInflight(const UserObject userObject)
+bool RewardsServiceObject::isUserDataInflight(const UserData userData)
 {
-    return inFlightUserRequests.contains(userObject);
+    return inFlightUserRequests.contains(userData);
     return true;
 }
 

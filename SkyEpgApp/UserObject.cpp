@@ -1,8 +1,8 @@
 #include "UserObject.h"
 
-AccountNum UserObject::nextAvailableAccountNumber = 255;
+AccountNum UserData::nextAvailableAccountNumber = 255;
 
-UserObject::UserObject(AccountNum accountNumber)
+UserData::UserData(AccountNum accountNumber)
     :userAccountNumber(accountNumber)
 {
     if(accountNumber==0)
@@ -11,17 +11,40 @@ UserObject::UserObject(AccountNum accountNumber)
     }
 }
 
-AccountNum  UserObject::getAccountNumber() const
+AccountNum  UserData::getAccountNumber() const
 {
     return userAccountNumber;
 }
 
-ChannelList UserObject::getSubscribedChannels() const
+ChannelList UserData::getSubscribedChannels() const
 {
     return subscribedChannels;
 }
 
-void     UserObject::addChannelSubscription(const ChannelObject & chan)
+void     UserData::addChannelSubscription(const ChannelObject & chan)
 {
-    // check then insert chan into subscribedChannels
+    subscribedChannels.append(chan);
+}
+
+//========================================================================
+
+UserObject::UserObject(const UserData & user, QObject *parent )
+    : QObject{parent},
+    userData(user)
+{
+
+}
+
+
+
+void    UserObject::handleRewardsResponse(RewardsList rewardsList)
+{
+    if( rewardsList.size() )
+    {
+
+    }
+    else
+    {
+     //   qDebug() << QObject::tr("Sorry no rewards for account num: ") << userAccountNumber;
+    }
 }

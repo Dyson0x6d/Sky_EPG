@@ -20,7 +20,7 @@ public:
     }
 
     void        addRewardsEntry(const RewardsEntryItem& rewardItem);
-    bool        isUserObjectInflight(const UserObject userObject);
+    bool        isUserDataInflight(const UserData userData);
 
     RewardsEntryItem getRewardEntryAt(uint idx) const;    // to enable debug
     void        clearRewardsEntries() {rewardsEntries.clear();}
@@ -29,7 +29,7 @@ signals:
     void        sendRewardsResponse(RewardsList);
 
 public slots:
-    void        handleRewardsRequest(UserObject);
+    void        handleRewardsRequest(UserData);
 
     // NOTE: the model seems to suggest that the eligibility response is always for the last account sent
     //       suggestion, return the account number WITH the eligibility response
@@ -41,7 +41,7 @@ private:
     explicit RewardsServiceObject(QObject *parent = nullptr);
 
     RewardsEntryList rewardsEntries;
-    QList<UserObject> inFlightUserRequests;
+    QList<UserData> inFlightUserRequests;
 };
 
 #endif // REWARDSSERVICEOBJECT_H

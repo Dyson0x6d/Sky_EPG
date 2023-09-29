@@ -28,14 +28,14 @@ private slots:
 
 void rewards_service_test::testHandleRewardsRequest()
 {
-    qRegisterMetaType<UserObject>();
+    qRegisterMetaType<UserData>();
     qRegisterMetaType<AccountNum>();
 
     QSignalSpy spy(&(RewardsServiceObject::GetInstance()),
                    SIGNAL(requestAccountEligibility(AccountNum)) );
 
     AccountNum accountNumber = 300;
-    UserObject user1(accountNumber);
+    UserData user1(accountNumber);
 
     RewardsServiceObject::GetInstance().handleRewardsRequest(user1);
 
