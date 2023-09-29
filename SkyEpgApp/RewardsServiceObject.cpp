@@ -40,7 +40,7 @@ void RewardsServiceObject::handleEligibilityResponse(EligibilityServiceType elig
 {
     // NOTE: the model seems to suggest that the eligibility response is always for the last account sent
     //       suggestion, return the account number WITH the eligibility response
-
+    auto latestUser = inFlightUserRequests
 
     // if eligibility == CUSTOMER_ELIGIBLE
     //  build the list of rewards from the users account num

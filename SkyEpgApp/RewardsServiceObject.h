@@ -4,6 +4,7 @@
 #include <QObject>
 #include "EpgAppTypes.h"
 #include "UserObject.h"
+#include "RewardsEntryItem.h"
 
 class RewardsServiceObject : public QObject
 {
@@ -22,7 +23,7 @@ public:
     bool        isUserObjectInflight(const UserObject userObject);
 
     RewardsEntryItem getRewardEntryAt(uint idx) const;    // to enable debug
-
+    void        clearRewardsEntries() {rewardsEntries.clear();}
 signals:
     void        requestAccountEligibility(AccountNum);
     void        sendRewardsResponse(RewardsList);

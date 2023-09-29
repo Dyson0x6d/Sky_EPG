@@ -2,8 +2,6 @@
 #define REWARDSENTRYITEM_H
 
 #include <QObject>
-#include <QVector>
-#include <QPair>
 
 extern QString staticStringList[5][2];
 
@@ -20,6 +18,11 @@ public:
         channelName = rhs.channelName;
         namedReward = rhs.namedReward;
         return *this;
+    }
+
+    bool operator==(const RewardsEntryItem & rhs)
+    {
+        return (channelName == rhs.channelName) && (namedReward == rhs.namedReward);
     }
 
 private:

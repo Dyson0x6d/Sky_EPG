@@ -20,6 +20,8 @@ private slots:
     void cleanupTestCase() {};
 
     void testHandleRewardsRequest();
+    void testAddSingleRewardsItem();
+    void testAddMultipleRewardsItems();
     // what is a failing test here?
 };
 
@@ -41,6 +43,42 @@ void rewards_service_test::testHandleRewardsRequest()
     AccountNum recievedAccountNum = qvariant_cast<AccountNum>(spy.at(0).at(0));
     QVERIFY( recievedAccountNum == accountNumber );
 }
+
+void rewards_service_test::testAddSingleRewardsItem()
+{
+    RewardsEntryItem item1(staticStringList[1][0], staticStringList[1][1]);
+    // check the functions?!
+
+    RewardsServiceObject::GetInstance().clearRewardsEntries();
+    RewardsServiceObject::GetInstance().addRewardsEntry(item1);
+
+    RewardsEntryItem resultItem = RewardsServiceObject::GetInstance().getRewardEntryAt(0);
+    QVERIFY(resultItem.getChannelName()!="");
+    QVERIFY(resultItem.getNamedReward()!="");
+    QVERIFY(resultItem==item1);
+}
+
+void rewards_service_test::testAddMultipleRewardsItems()
+{
+    RewardsEntryList entryList;
+    uint userChannelSelection[3] = {0,2,3};
+    for( auto usrChanel : userChannelSelection )
+    {
+        entryList.append( RewardsEntryItem(staticStringList[usrChanel][0], staticStringList[usrChanel][1]));
+    }
+
+    RewardsServiceObject::GetInstance().clearRewardsEntries();
+    uint counter =0;
+    for( auto entryItem = entryList.begin(); entryItem != entryList.end(); ++entryItem, counter++)
+    {
+        RewardsServiceObject::GetInstance().addRewardsEntry(*entryItem);
+
+        RewardsEntryItem resultItem = RewardsServiceObject::GetInstance().getRewardEntryAt(counter);
+        QVERIFY(resultItem==(*entryItem));
+    }
+
+}
+
 
 //========================================================================
 
