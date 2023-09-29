@@ -9,10 +9,20 @@ RewardsServiceObject::RewardsServiceObject(QObject *parent)
 
 void    RewardsServiceObject::addRewardsEntry(const RewardsEntryItem& rewardItem)
 {
-    // check for duplicates
-    //rewardsEntries.append(rewardItem);
+    rewardsEntries.append(rewardItem);
 }
 
+RewardsEntryItem RewardsServiceObject::getRewardEntryAt(uint idx) const
+{
+    if(idx < rewardsEntries.size())
+    {
+        return rewardsEntries.at(idx);
+    }
+    else
+    {
+        return RewardsEntryItem("","");
+    }
+}
 
 void RewardsServiceObject::handleRewardsRequest(UserObject userObj)
 {

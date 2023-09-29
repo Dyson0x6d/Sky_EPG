@@ -21,6 +21,8 @@ public:
     void        addRewardsEntry(const RewardsEntryItem& rewardItem);
     bool        isUserObjectInflight(const UserObject userObject);
 
+    RewardsEntryItem getRewardEntryAt(uint idx) const;    // to enable debug
+
 signals:
     void        requestAccountEligibility(AccountNum);
     void        sendRewardsResponse(RewardsList);

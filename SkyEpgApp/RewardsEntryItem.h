@@ -2,20 +2,29 @@
 #define REWARDSENTRYITEM_H
 
 #include <QObject>
+#include <QVector>
+#include <QPair>
 
-class RewardsEntryItem : public QObject
+extern QString staticStringList[5][2];
+
+class RewardsEntryItem
 {
-    Q_OBJECT
 public:
-    explicit RewardsEntryItem(const QString& chan, const QString reward, QObject *parent = nullptr);
+    explicit RewardsEntryItem(const QString& chan, const QString reward);
 
     QString    getChannelName() const;
     QString    getNamedReward() const;
-signals:
+
+    RewardsEntryItem &operator =(const RewardsEntryItem & rhs)
+    {
+        channelName = rhs.channelName;
+        namedReward = rhs.namedReward;
+        return *this;
+    }
 
 private:
-    const QString           channelName;
-    const QString           namedReward;
+    QString           channelName;
+    QString           namedReward;
 };
 
 #endif // REWARDSENTRYITEM_H
