@@ -35,6 +35,7 @@ public:
     explicit UserObject(const UserData & user, QObject *parent = nullptr);
     virtual ~UserObject() {}
 
+    void    sendUserObjectRequest();
 signals:
     void    requestAvailableRewards(UserData);
 
