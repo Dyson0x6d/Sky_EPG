@@ -1,3 +1,4 @@
+#include <qtextstream.h>
 #include "UserObject.h"
 
 AccountNum UserData::nextAvailableAccountNumber = 255;
@@ -35,16 +36,23 @@ UserObject::UserObject(const UserData & user, QObject *parent )
 
 }
 
-
-
 void    UserObject::handleRewardsResponse(RewardsList rewardsList)
 {
-    if( rewardsList.size() )
-    {
+    QTextStream ts( stdout );
 
+    if( rewardsList.size() > 0)
+    {
+        ts << QObject::tr("Account Number : ") << userData.getAccountNumber() << " has rewards";
+        for( auto reward = rewardsList.begin(); reward != rewardsList.end(); reward)
+        {
+            if( *reward != QObject::tr("N/A"))
+            {
+                ts << *reward;
+            }
+        }
     }
     else
     {
-     //   qDebug() << QObject::tr("Sorry no rewards for account num: ") << userAccountNumber;
+        ts << QObject::tr("Sorry no rewards for account num: ") << userData.getAccountNumber();
     }
 }
